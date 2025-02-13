@@ -179,6 +179,8 @@ body {
             */
             #timer-settings {
                 transition: all 0.3s ease-in-out;
+                opacity: 0;
+                visibility: hidden;
             }
                 #close-settings {
                     top: -45px;
