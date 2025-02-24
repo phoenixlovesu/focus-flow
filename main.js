@@ -133,7 +133,7 @@
                 playAlarm = isWorking ? restFinished : workFinished;
                 playAlarm.play();
 
-                isPaused = false;
+                isPaused = true;
                 body.classList.remove('timer-work-active');
             }
 

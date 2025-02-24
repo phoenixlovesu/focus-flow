@@ -39,6 +39,15 @@ body {
    position: absolute;
    transition: all 0.6s ease-in-out;
 }
+body.rest-mode #cloud-bg {
+    filter: blur(5px) grayscale(0.6) brightness(0.5);
+}
+body.rest-mode .circle-progress {
+    stroke: #fd525385;
+}
+body.timer-running .cirrcle-progress {
+    transition: all 1s linear;
+}
 
 /**
 *Pomodoro
@@ -132,15 +141,15 @@ body {
                 transform-origin: 50% 50%;
                 transform: rotate(-90deg);
             }
-                #timer-time {
+            #timer-time {
                     fill: #5c5c5c;
-                }
-                #timer-pause,
-                #timer-rest {
-                    opacity: 0;
-                    transition: all 0.3s ease-in-out;
-                    fill: #5c5c5cd1;
-                }
+            }
+            #timer-pause,
+            #timer-rest {
+                opacity: 0;
+                transition: all 0.3s ease-in-out;
+                fill: #5c5c5cd1;
+            }
 
 
     body.settings-active #timer-settings {
@@ -268,8 +277,6 @@ body {
                 font-size: 22px;
                 color: #fff;
                 border-radius: 100px;
-
-            
             }
 
             body.timer-running #start-btn {
@@ -286,7 +293,7 @@ body {
             * Timer inner text
             */
             body.timer-paused:not(rest-mode) #timer-pause,
-            body.rest-mode #timer-text,
+            body.rest-mode #timer-rest,
             body.rest-mode.timer-paused #timer-pause {
                 opacity: 1;
         
