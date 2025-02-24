@@ -142,6 +142,17 @@ body {
                     fill: #5c5c5cd1;
                 }
 
+
+    body.settings-active #timer-settings {
+        opacity: 1;
+        visibility: visible;
+    }
+    body.settings-active #timer-sessions,
+    body.settings-active #timer-buttons {
+        opacity: 0;
+        visibility: hidden;
+    }
+
     /**
     *Completed sessions
     */
@@ -260,6 +271,30 @@ body {
 
             
             }
+
+            body.timer-running #start-btn {
+                opacity: 0;
+                visibility: hidden;
+
+            }
+            body.timer-paused #start-btn {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            /**
+            * Timer inner text
+            */
+            body.timer-paused:not(rest-mode) #timer-pause,
+            body.rest-mode #timer-text,
+            body.rest-mode.timer-paused #timer-pause {
+                opacity: 1;
+        
+            }
+            body.rest-mode.timer-paused #timer-rest {
+                opacity: 0;
+            }
+
 
 
 

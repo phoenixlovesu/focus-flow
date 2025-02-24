@@ -4,15 +4,17 @@
     const workDurationInput = document.getElementById('work-duration');
     const restDurationInput = document.getElementById('rest-duration');
     const timerTime = document.getElementById('timer-time');
-    const circleProgress = document.querySelector('.cirle-progress');
+    const circleProgress = document.querySelector('.circle-progress');
 
     let workDuration = parseInt(workDurationInput.value) * 60;
     let restDuration = parseInt(restDurationInput.value) * 60;
-    letRemainingTime = workDuration;
+    let remainingTime = workDuration;
     let isPaused = true;
     let isWorking = true;
     let intervalId;
 
+    const completedSessionsElement = document.getElementById("completed-sessions");
+    let completedSessions = 0;
 
     /**
      * Page loaded
@@ -64,14 +66,14 @@
     const btnCloseSettings = document.getElementById('close-settings');
 
     function setBodySettings() {
-        body.classList.contains('settings-active') ? body.remove('settings-active') : body.add('settings-active') ; 
+        body.classList.contains('settings-active') ? body.classList.remove('settings-active') : body.classList.add('settings-active') ; 
     }
 
     function toggleSettings() {
         if(event.type === 'click') {
             setBodySettings();
         }
-        else if(event.typw === 'keydown' && event.keyCode === 27){
+        else if(event.type === 'keydown' && event.keyCode === 27){
             body.classList.remove('settings-active');
         }
     }
@@ -80,29 +82,62 @@
     btnCloseSettings.addEventListener('click', toggleSettings);
     document.addEventListener('keydown', toggleSettings);
 
+
+     /**
+     * Work / rest settings
+     */
+    workDurationInput.addEventListener('change', () => {
+        workDuration = parseInt(workDurationInput.value) * 60;
+        if(isWorking) {
+            remainingTime = workDuration;
+            updateProgress();
+        }
+    });
+    restDurationInput.addEventListener('change', () => {
+        workDuration = parseInt(restDurationInput.value) * 60;
+        if(isWorking) {
+            remainingTime = workDuration;
+            updateProgress();
+        }
+    });
+
     /**
      * Update timer
      */
     function updateTimer() {
+
+        let playAlarm;
+        const workFinished = new Audio("session-complete.mp3");
+        const restFinished = new Audio("rest-complete.mp3");
+
+
         if(!isPaused) {
             remainingTime--;
 
             if(remainingTime <= 0) {
                 isWorking = !isWorking;
                 remainingTime = isWorking ? workDuration : restDuration;
-
+            
                 if(!isWorking) {
                     body.classList.add('rest-mode');
                     body.classList.remove('timer-running');
+
+                    completedSessions++;
+                    completedSessionsElement.textContent = completedSessions;
                 }
                 else {
                     body.classList.remove('rest-mode');
                     body.classList.remove('timer-running');
                 }
 
+                playAlarm = isWorking ? restFinished : workFinished;
+                playAlarm.play();
+
                 isPaused = false;
                 body.classList.remove('timer-work-active');
             }
+
+            document.title = timerTime.textContent = formatTime(remainingTime);
 
             updateProgress();
 
@@ -121,7 +156,7 @@
         const dashOffset = circumference * remainingTime / totalDuration;
 
         circleProgress.style.strokeDashoffset = dashOffset;
-        timerTime.textContext = formatTime(remainingTime);
+        timerTime.textContent = formatTime(remainingTime);
     }
 
     function formatTime(seconds) {
