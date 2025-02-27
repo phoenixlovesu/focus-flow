@@ -44,8 +44,9 @@ body.rest-mode #cloud-bg {
 }
 body.rest-mode .circle-progress {
     stroke: #fd525385;
+    transition: stroke-dashoffset 1s linear;
 }
-body.timer-running .cirrcle-progress {
+body.timer-running .circle-progress {
     transition: all 1s linear;
 }
 

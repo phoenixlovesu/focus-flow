@@ -20,7 +20,8 @@
      * Page loaded
      */
     window.addEventListener("load",() => {
-        body.classList.add('page-loaded'); //hides overlay and reveals timer 
+        body.classList.add('page-loaded'); //hides overlay and reveals timer
+        updateProgress();
     });
 
 
@@ -28,34 +29,36 @@
      * Start button
      */
     const startBtn = document.getElementById('start-btn');
-    startBtn.addEventListener('click', ()=> {
-        isPaused = false;
+    startBtn.addEventListener('click', () => {
+        if (isPaused) {
+            isPaused = false;
 
-        body.classList.add('timer-running');
+            body.classList.add('timer-running'); 
 
-        if(isWorking) {
-            body.classList.remove('timer-paused');
-        }
-        else {
-            body.classList.add('rest-mode');
-            body.classList.remove('timer-paused');
-        }
+            if (isWorking) {
+                body.classList.remove('timer-paused');
+            } else {
+                body.classList.add('rest-mode'); 
+                body.classList.remove('timer-paused'); 
+            }
 
-        if(intervalId) {
-            intervalId = setInterval(updateTimer, 1000);
+            if (!intervalId) {
+                intervalId = setInterval(updateTimer, 1000); // Updates the timer every second
+            }
         }
-    });
+});
 
 
     /**
      * Pause button
      */
     const pauseBtn = document.getElementById('pause-btn');
-    pauseBtn.addEventListener('click', ()=> {
+    pauseBtn.addEventListener("click", () => {
         isPaused = true;
 
         body.classList.remove('timer-running');
         body.classList.add('timer-paused');
+        clearInterval(intervalId);
     });
 
 
@@ -94,9 +97,9 @@
         }
     });
     restDurationInput.addEventListener('change', () => {
-        workDuration = parseInt(restDurationInput.value) * 60;
-        if(isWorking) {
-            remainingTime = workDuration;
+        restDuration = parseInt(restDurationInput.value) * 60;
+        if(!isWorking) {
+            remainingTime = restDuration;
             updateProgress();
         }
     });
@@ -110,9 +113,8 @@
         const workFinished = new Audio("session-complete.mp3");
         const restFinished = new Audio("rest-complete.mp3");
 
-
         if(!isPaused) {
-            remainingTime--;
+            remainingTime--; 
 
             if(remainingTime <= 0) {
                 isWorking = !isWorking;
@@ -138,9 +140,7 @@
             }
 
             document.title = timerTime.textContent = formatTime(remainingTime);
-
             updateProgress();
-
 
         }
     }
@@ -151,23 +151,21 @@
     function updateProgress() {
         const radius = 45;
         const circumference = 2 * Math.PI * radius;
-
+     
         const totalDuration = isWorking ? workDuration : restDuration;
         const dashOffset = circumference * remainingTime / totalDuration;
-
+     
         circleProgress.style.strokeDashoffset = dashOffset;
         timerTime.textContent = formatTime(remainingTime);
-    }
-
-    function formatTime(seconds) {
+     }
+     
+     function formatTime(seconds) {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
-        return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`; //ensures minutes and seconds are always two digits
-    }
-
-    updateProgress();
-        
-
+        return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+     }
+     
+     updateProgress();
     
 
 })();
