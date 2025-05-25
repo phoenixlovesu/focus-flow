@@ -50,6 +50,18 @@ body.timer-running .circle-progress {
     transition: all 1s linear;
 }
 
+#app-container{
+    display: flex;
+    gap: 40px;
+    max-width: 900px;
+    margin: 40px auto;
+    flex-wrap: wrap;
+}
+#pomodoro,
+#todo-list {
+    flex: 1;
+}
+
 /**
 *Pomodoro
 */
@@ -67,242 +79,286 @@ body.timer-running .circle-progress {
     -webkit-backdrop-filter: blur(7.7px);
 }
 
-    /**
-    *Overlay
-    */
-    #pomodoro-overlay {
+/**
+*Overlay
+*/
+#pomodoro-overlay {
 
-        background-color: aliceblue;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        border-radius: 20px;
-        z-index: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all o.3s ease-in-out;
+    background-color: aliceblue;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 20px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+}
+body.page-loaded #pomodoro-overlay {
+    opacity: 0;
+    visibility: hidden;
+}
+#pomodoro-overlay img {
+    width: 150px;
+    height: 150px;
+}
+
+/**
+*Generic button + toggle button
+*/
+.btn-icon {
+    border-radius: 20px;
+    position: absolute;
+    right: 0;
+    width: 50px;
+    display: flex;
+    font-size: 24px;
+    justify-content: center;
+    color: #7b7b7b;
+    padding-top: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+#toggle-settings {
+    top: 20px;
+    right: 20px;
+    height: 50px;
+}
+
+/**
+* Progress
+*/
+#timer-progress {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+.circle-timer {
+    width: 270px;
+    height: 270px;
+}
+.circle-background {
+    stroke: #ffffff;
+    stroke-width: 7;
+    fill: none;
+}
+.circle-progress {
+    stroke:#fd5252;
+    stroke-width: 7;
+    stroke-dasharray: 283;
+    stroke-linecap: round;
+    fill: none;
+    transform-origin: 50% 50%;
+    transform: rotate(-90deg);
+}
+#timer-time {
+    fill: #5c5c5c;
+}
+#timer-pause,
+#timer-rest {
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    fill: #5c5c5cd1;
+}
+
+body.settings-active #timer-settings {
+    opacity: 1;
+    visibility: visible;
+}
+body.settings-active #timer-sessions,
+body.settings-active #timer-buttons {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/**
+*Completed sessions
+*/
+#timer-sessions {
+    border-radius: 50px;
+    background: #fff;
+    display: flex;
+    color: #5c5c5cb8;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+#timer-sessions p {
+    padding: 12px;
+}
+p#completed-label {
+    width: 80%;
+    text-align: center;
+}
+p#completed-sessions {
+    font-weight: bold;
+    color: #222;
+    font-size: 20px;
+}
+
+/**
+* Timer functions
+*/
+#timer-functions {
+    height: 145px;
+    position: relative;
+}
+
+
+/**
+*Settings
+*/
+#timer-settings {
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+}
+#close-settings {
+    top: -45px;
+    height: 80px;
+    background: #d85e3a;
+    color: #f7ddd7;
+}
+#close-settings:hover {
+    color: #fff;
+}
+
+#timer-form {
+    border-radius: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #d85e3a;
+    padding: 20px;
+    z-index: 1;
     }
-    body.page-loaded #pomodoro-overlay {
-        opacity: 0;
-        visibility: hidden;
-    }
-    #pomodoro-overlay img {
-        width: 150px;
-        height: 150px;
-    }
 
-    /**
-    *Generic button + toggle button
-    */
-    .btn-icon {
-        border-radius: 20px;
-        position: absolute;
-        right: 0;
-        width: 50px;
-        display: flex;
-        font-size: 24px;
-        justify-content: center;
-        color: #7b7b7b;
-        padding-top: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-    }
-    #toggle-settings {
-        top: 20px;
-        right: 20px;
-        height: 50px;
-    }
+.timer-line {
+    display: flex;
+}
+.timer-line:last-child {
+    margin-top: 20px;
+}
+.timer-line * {
+    font-size: 18px;
+}
+.timer-line label {
+    width: 50%;
+    color: #ffffffc7;
+    padding: 10px 0 10px 0;
+}
+.timer-line input {
+    width: 50%;
+    color: #5c5c5c;
+    background: #fff;
+    margin-left: -2px;
+    border-radius: 10px;
+    border: 0 none;
+    text-align: center;
+}
+#timer-form input::-webkit-outer-spin-button,
+#timer-form input::-webkit-inner-spin-button {
+    -webkit-appearance: none; /*hides default appearaance of spin buttons(arrows) */
+}
+#timer-form input[type=number] {
+    -moz-appearance: textfield; /*removes spinner arrows for firefox*/
+}
 
-    /**
-    * Progress
-    */
-    #timer-progress {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 40px;
-    }
-        .circle-timer {
-            width: 270px;
-            height: 270px;
-        }
-            .circle-background {
-                stroke: #ffffff;
-                stroke-width: 7;
-                fill: none;
-            }
-            .circle-progress {
-                stroke:#fd5252;
-                stroke-width: 7;
-                stroke-dasharray: 283;
-                stroke-linecap: round;
-                fill: none;
-                transform-origin: 50% 50%;
-                transform: rotate(-90deg);
-            }
-            #timer-time {
-                    fill: #5c5c5c;
-            }
-            #timer-pause,
-            #timer-rest {
-                opacity: 0;
-                transition: all 0.3s ease-in-out;
-                fill: #5c5c5cd1;
-            }
+/**
+* Play/Pause buttons
+*/
+#timer-buttons {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+#timer-buttons button {
+    background-color:#fd5252;
+    position: absolute;
+    border: 0px none;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    display: block;
+    font-size: 22px;
+    color: #fff;
+    border-radius: 100px;
+}
 
+body.timer-running #start-btn {
+    opacity: 0;
+    visibility: hidden;
 
-    body.settings-active #timer-settings {
-        opacity: 1;
-        visibility: visible;
-    }
-    body.settings-active #timer-sessions,
-    body.settings-active #timer-buttons {
-        opacity: 0;
-        visibility: hidden;
-    }
+}
+body.timer-paused #start-btn {
+    opacity: 1;
+    visibility: visible;
+}
 
-    /**
-    *Completed sessions
-    */
-    #timer-sessions {
-        border-radius: 50px;
-        background: #fff;
-        display: flex;
-        color: #5c5c5cb8;
-        align-items: center;
-        transition: all 0.3s ease-in-out;
-    }
-        #timer-sessions p {
-            padding: 12px;
-        }
-        p#completed-label {
-            width: 80%;
-            text-align: center;
-        }
-        p#completed-sessions {
-            font-weight: bold;
-            color: #222;
-            font-size: 20px;
-        }
+/**
+* Timer inner text
+*/
+body.timer-paused:not(rest-mode) #timer-pause,
+body.rest-mode #timer-rest,
+body.rest-mode.timer-paused #timer-pause {
+    opacity: 1;
 
-        /**
-        * Timer functions
-        */
-        #timer-functions {
-            height: 145px;
-            position: relative;
-        }
+}
+body.rest-mode.timer-paused #timer-rest {
+    opacity: 0;
+}
 
-             /**
-            *Settings
-            */
-            #timer-settings {
-                transition: all 0.3s ease-in-out;
-                opacity: 0;
-                visibility: hidden;
-            }
-                #close-settings {
-                    top: -45px;
-                    height: 80px;
-                    background: #d85e3a;
-                    color: #f7ddd7;
-                }
-                #close-settings:hover {
-                    color: #fff;
-                }
+/* To-Do List section*/
+#todo-list {
+    border: 1px solid peachpuff;
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    margin: 5px auto;
+    padding: 55px 25px 25px 25px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.29);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.7px);
+    -webkit-backdrop-filter: blur(7.7px);
+}
+#todo-list input {
+    width: 80%;
+    padding: 8px;
+    font-size: 1rem;
+}
 
-                #timer-form {
-                    border-radius: 20px;
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 100%;
-                    background: #d85e3a;
-                    padding: 20px;
-                    z-index: 1;
-                }
+#add-btn {
+    background-color:#fd5252;
+    position: absolute;
+    border: 0px none;
+    cursor: pointer;
+    width: 60px;
+    height: 40px;
+    display: block;
+    font-size: 22px;
+    color: #fff;
+    border-radius: 12px;
+}
 
-                    .timer-line {
-                        display: flex;
-                    }
-                    .timer-line:last-child {
-                        margin-top: 20px;
-                    }
-                        .timer-line * {
-                            font-size: 18px;
-                        }
-                        .timer-line label {
-                            width: 50%;
-                            color: #ffffffc7;
-                            padding: 10px 0 10px 0;
-                        }
-                        .timer-line input {
-                            width: 50%;
-                            color: #5c5c5c;
-                            background: #fff;
-                            margin-left: -2px;
-                            border-radius: 10px;
-                            border: 0 none;
-                            text-align: center;
-                        }
-                        #timer-form input::-webkit-outer-spin-button,
-                        #timer-form input::-webkit-inner-spin-button {
-                            -webkit-appearance: none; /*hides default appearaance of spin buttons(arrows) */
-                        }
-                        #timer-form input[type=number] {
-                            -moz-appearance: textfield; /*removes spinner arrows for firefox*/
-                        }
+#todo-items {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 20px;
+}
 
-            /**
-            * Play/Pause buttons
-            */
-            #timer-buttons {
-                width: 100%;
-                height: 100%;
-                position: relative;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                transition: all 0.3s ease-in-out;
-            }
-            #timer-buttons button {
-                background-color:#fd5252;
-                position: absolute;
-                border: 0px none;
-                cursor: pointer;
-                width: 60px;
-                height: 60px;
-                display: block;
-                font-size: 22px;
-                color: #fff;
-                border-radius: 100px;
-            }
-
-            body.timer-running #start-btn {
-                opacity: 0;
-                visibility: hidden;
-
-            }
-            body.timer-paused #start-btn {
-                opacity: 1;
-                visibility: visible;
-            }
-
-            /**
-            * Timer inner text
-            */
-            body.timer-paused:not(rest-mode) #timer-pause,
-            body.rest-mode #timer-rest,
-            body.rest-mode.timer-paused #timer-pause {
-                opacity: 1;
-        
-            }
-            body.rest-mode.timer-paused #timer-rest {
-                opacity: 0;
-            }
-
+@media (max-width: 600px) {
+  #app-container {
+    flex-direction: column;
+  }
+}
 
 
 

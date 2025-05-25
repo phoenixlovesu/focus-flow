@@ -13,7 +13,10 @@
 <body>
 
     <div id="cloud-bg"></div>
-    <div id="pomodoro">
+    <div id="app-container">
+
+        <!-- Pomodor Timer-->
+        <div id="pomodoro">
         <div id="pomodoro-overlay">
             <img src="spinner.gif" alt="">
         </div>
@@ -54,7 +57,18 @@
                 <button id="start-btn"><i class="fa fa-play"></i></button>
             </div>
         </div>
+
+        
     </div>
+    <!-- To-Do List-->
+        <div id="todo-list">
+            <h2>To-Do List</h2>
+            <input id="todo-list" type="text" placeholder="Add text here...">
+            <button id="add-btn">Add</button>
+            <ul id="todo-items"></ul>
+        </div>
+    </div>
+    
     <script src="main.js"></script>
 
 </body>
